@@ -1,0 +1,78 @@
+@model IEnumerable<Domain.App.Ticket>
+<html lang="ee">
+    <head>
+        <title>Tickets</title>
+        <link href="/css/site.css" rel="stylesheet">
+        <meta http-equiv="refresh" content="60">
+    </head>
+    <body>
+        <div class="container">
+            <main role="main" class="pb-3">
+                <h1>Tickets</h1>
+                <p>
+                    <a asp-action="Create">Create a new ticket</a>
+                </p>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DueDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreatedAt)
+                        </th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in Model) {
+                        @if (item.DueDate.Subtract(DateTime.Now).Hours < 1)
+                        {
+                            <tr>
+                                <td>
+                                    <div style="color: red">
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="color: red">
+                                        @Html.DisplayFor(modelItem => item.DueDate)
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="color: red">
+                                        @Html.DisplayFor(modelItem => item.CreatedAt)
+                                    </div>
+                                </td>
+                                <td>
+                                    <a asp-action="Remove" asp-route-id="@item.Id">Remove ticket</a>
+                                </td>
+                            </tr>
+                        } else
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DueDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                                </td>
+                                <td>
+                                    <a asp-action="Remove" asp-route-id="@item.Id">Remove ticket</a>
+                                </td>
+                            </tr>
+                        }
+                        
+                    }
+                    </tbody>
+                </table>
+            </main>
+        </div>
+    </body>
+</html>
